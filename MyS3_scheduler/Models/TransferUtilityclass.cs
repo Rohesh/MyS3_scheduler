@@ -10,31 +10,37 @@ using System.IO;
 
 namespace MyS3_scheduler.Models
 {
-    class TransferUtilityclass
+   public class TransferUtilityclass
     {
-        //string filePath = "D:\\Test.json";
+       
 
         string filePath = Path.Combine("Content", "Test.json");
 
 
-        public void Transfer(string Bucketname,string key)
+        public  void Transfer(string Bucketname,string key)
         {
-            var S3client = new AmazonS3Client(Amazon.RegionEndpoint.USEast1);
-            GetObjectRequest request = new GetObjectRequest();
-           
-            var transferUtility = new TransferUtility(S3client);
-           
-            TransferUtilityUploadRequest transferUtilityUploadRequest = new TransferUtilityUploadRequest
+            try
             {
-                BucketName = Bucketname,
+                var S3client = new AmazonS3Client(Amazon.RegionEndpoint.USEast1);
+                GetObjectRequest request = new GetObjectRequest();
 
-                Key = "Even_List",
-                FilePath = filePath,
-                ContentType = "text/plain"
-            };
+                var transferUtility = new TransferUtility(S3client);
 
-            transferUtility.Upload(transferUtilityUploadRequest); // use UploadAsync if possible
+                TransferUtilityUploadRequest transferUtilityUploadRequest = new TransferUtilityUploadRequest
+                {
+                    BucketName = Bucketname,
 
+                    Key = "Even_List",
+                    FilePath = filePath,
+                    ContentType = "text/json"
+                };
+
+                transferUtility.Upload(transferUtilityUploadRequest); // use UploadAsync if possible
+            }
+            catch (Exception ex)
+             {
+                new ErrorLog().WriteToLog(ex.Message);
+            }
         }
     }
 }
