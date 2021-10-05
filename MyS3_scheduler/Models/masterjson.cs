@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace MyS3_scheduler
 {
-
-
     public class masterjson
     {
 
